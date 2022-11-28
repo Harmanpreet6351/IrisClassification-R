@@ -3,8 +3,6 @@ Iris Classification
 Harmanpreet6351
 2022-11-28
 
-# Iris Classification
-
 ## Loading required Libraries
 
 ### About Data set
