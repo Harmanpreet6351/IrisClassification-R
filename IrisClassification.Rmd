@@ -1,0 +1,86 @@
+---
+title: "Iris Classification"
+author: "Harmanpreet6351"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Iris Classification
+
+## Loading required Libraries
+
+```{r include = FALSE}
+library(datasets)
+library(GGally)
+library(ggplot2)
+library(e1071)
+library(caret)
+```
+
+### About Data set
+
+We are using Iris data set which comes with R dataset library
+
+Viewing first 6 rows of data set
+
+```{r}
+head(iris)
+```
+
+Summarizing data
+
+```{r}
+summary(iris)
+```
+
+Visualizing
+
+```{r}
+ggpairs(iris[-5], mapping = aes(colour=iris$Species), progress = F)
+```
+
+### Splitting Dataset into train and test
+
+```{r}
+samp <- sample(nrow(iris), 0.75*nrow(iris))
+train <- iris[samp,]
+test <- iris[-samp,]
+```
+
+First 6 rows of Train data set
+
+```{r}
+head(train)
+```
+
+First 6 rows of Test data set
+
+```{r}
+head(test)
+```
+
+### Training model using Support Vector Machine
+
+```{r}
+model1 <- svm(Species ~ ., data = train)
+pred1 <- predict(model1, test[-5])
+confusionMatrix(pred1, test$Species)
+```
+
+### Training with Support Vector machine but only with Petal Length and Petal Width
+
+```{r}
+model2 <- svm(Species ~ Petal.Length + Petal.Width, data = train)
+pred2 <- predict(model2, test[c(3,4)])
+confusionMatrix(pred2, test$Species)
+```
+
+## A similar accuracy is achieved. Why?
+
+From above analysis, it can been seen that petal length and petal width have high correlation and there we get a similar accuracy. Therefore, it can be concluded that **Petal Length and Petal Width are important features** as compared to Sepal Length and Sepal Width.
+
+# Thank you.
